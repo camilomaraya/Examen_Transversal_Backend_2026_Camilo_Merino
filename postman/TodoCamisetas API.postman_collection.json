@@ -1,0 +1,431 @@
+{
+  "info": {
+    "_postman_id": "9d559ab8-9d43-443d-afb0-e3b43151332f",
+    "name": "TodoCamisetas API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54642665",
+    "_collection_link": "https://go.postman.co/collection/54642665-9d559ab8-9d43-443d-afb0-e3b43151332f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Verificar estado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/clientes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver cliente con camisetas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/clientes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear cliente",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre_comercial\": \"Deportes La Serena\",\r\n  \"rut\": \"76.555.666-7\",\r\n  \"direccion\": \"La Serena\",\r\n  \"tipo\": \"Regular\",\r\n  \"contacto_nombre\": \"Pedro Soto\",\r\n  \"contacto_email\": \"pedro@deporteslaserena.cl\",\r\n  \"porcentaje_oferta\": 5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/clientes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"direccion\": \"Santiago Centro, Santiago\",\r\n  \"porcentaje_oferta\": 20\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/clientes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar cliente (falla con camisetas)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/clientes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Camisetas",
+      "item": [
+        {
+          "name": "Listar camisetas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/camisetas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar camisetas por cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/camisetas?cliente_id=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas"
+              ],
+              "query": [
+                {
+                  "key": "cliente_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver camiseta - precio Preferencial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/camisetas/1?cliente_id=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "cliente_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver camiseta - precio Regular",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/camisetas/1?cliente_id=2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "cliente_id",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear camiseta",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"titulo\": \"Camiseta Visita 2025 – Selección Chilena\",\r\n  \"club\": \"Selección Chilena\",\r\n  \"pais\": \"Chile\",\r\n  \"tipo\": \"Visita\",\r\n  \"color\": \"Blanco\",\r\n  \"precio\": 45000,\r\n  \"precio_oferta\": 38000,\r\n  \"detalles\": \"Clasificatorias 2026\",\r\n  \"codigo_producto\": \"SCL2025V\",\r\n  \"cliente_id\": 1,\r\n  \"tallas\": [1, 2, 3, 4]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/camisetas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar camiseta",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"precio\": 48000,\r\n  \"precio_oferta\": 40000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/camisetas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar camiseta",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/camisetas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "camisetas",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tallas",
+      "item": [
+        {
+          "name": "Listar tallas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tallas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tallas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear talla",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nombre\": \"XXL\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/tallas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tallas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar talla",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nombre\": \"XS\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/tallas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tallas",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar talla",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tallas/5",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tallas",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}

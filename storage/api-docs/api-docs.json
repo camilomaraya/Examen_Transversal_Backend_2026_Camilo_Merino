@@ -1,0 +1,954 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TodoCamisetas API",
+        "description": "API REST para gestión de inventario de camisetas de fútbol y clientes B2B. Proveedor mayorista de camisetas nacionales e internacionales.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/api",
+            "description": "Servidor de desarrollo local"
+        }
+    ],
+    "paths": {
+        "/camisetas": {
+            "get": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Listar camisetas",
+                "description": "Permite filtrar por cliente_id via query param",
+                "operationId": "e3fa74d0285600c2a864942784c1d75a",
+                "parameters": [
+                    {
+                        "name": "cliente_id",
+                        "in": "query",
+                        "description": "Filtrar camisetas por cliente",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de camisetas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Camiseta"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Crear una camiseta",
+                "operationId": "36a975dbe7e7989c3ad96430796cfff9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CamisetaInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Camiseta creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Camiseta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/camisetas/{id}": {
+            "get": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Obtener una camiseta con precio final",
+                "description": "Si se envía cliente_id y el cliente es Preferencial con precio_oferta definido, precio_final será el precio_oferta. En caso contrario, precio_final será el precio base.",
+                "operationId": "54e01d8c44896e1be85402f564c6ad1c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cliente_id",
+                        "in": "query",
+                        "description": "ID del cliente para calcular precio final",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de camiseta con precio_final",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Camiseta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Camiseta no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Actualizar una camiseta",
+                "operationId": "96d4f09ecf01194b2a6d07609f2dcc75",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CamisetaInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Camiseta actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Camiseta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Camiseta no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Eliminar una camiseta",
+                "operationId": "f9e015f046c53518bbe07bb7c8de271c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Camiseta eliminada"
+                    },
+                    "404": {
+                        "description": "Camiseta no encontrada"
+                    }
+                }
+            }
+        },
+        "/clientes": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Listar todos los clientes",
+                "operationId": "ce1b06de9bbd15a5cc0ed7ab28ee5713",
+                "responses": {
+                    "200": {
+                        "description": "Listado de clientes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Cliente"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Crear un cliente",
+                "operationId": "703b9106594ca621e0c5bb1b8328bb70",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClienteInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Cliente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/clientes/{id}": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Obtener un cliente con sus camisetas",
+                "operationId": "9414678b6b3a1f03b3d296d4dcf8d844",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle del cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Cliente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cliente no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Actualizar un cliente",
+                "operationId": "27af8d44cc1dbf176f91e6118f0ce961",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClienteInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Cliente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cliente no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Eliminar un cliente",
+                "description": "No se puede eliminar si tiene camisetas asociadas",
+                "operationId": "9ad82979f62d7065a69ed5067066d569",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cliente eliminado"
+                    },
+                    "404": {
+                        "description": "Cliente no encontrado"
+                    },
+                    "409": {
+                        "description": "Cliente tiene camisetas asociadas"
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Verificar estado del servicio",
+                "description": "Endpoint de observabilidad. Verifica que la API está disponible.",
+                "operationId": "5632cef8c0f75c79d8e8813e2c75fbb3",
+                "responses": {
+                    "200": {
+                        "description": "Servicio operativo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "online"
+                                        },
+                                        "service": {
+                                            "type": "string",
+                                            "example": "TodoCamisetas API"
+                                        },
+                                        "version": {
+                                            "type": "string",
+                                            "example": "1.0.0"
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tallas": {
+            "get": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Listar todas las tallas",
+                "operationId": "3eaa361866e7e29246bd0d7e09fd0d75",
+                "responses": {
+                    "200": {
+                        "description": "Listado de tallas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Talla"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Crear una talla",
+                "operationId": "084652df5aaae551b2e445cc923440c1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TallaInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Talla creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Talla"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/tallas/{id}": {
+            "get": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Obtener una talla con sus camisetas",
+                "operationId": "e740ab9d2686678eeba210af9e46700d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de talla",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Talla"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Talla no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Actualizar una talla",
+                "operationId": "ead2c6582ff284b2c3c8fc2cc3903e5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TallaInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Talla actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Talla"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Talla no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Eliminar una talla",
+                "operationId": "89c6e70e8ac16e66d9ae93179e36e7cf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Talla eliminada"
+                    },
+                    "404": {
+                        "description": "Talla no encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CamisetaInput": {
+                "required": [
+                    "titulo",
+                    "club",
+                    "pais",
+                    "tipo",
+                    "color",
+                    "precio",
+                    "codigo_producto"
+                ],
+                "properties": {
+                    "titulo": {
+                        "type": "string",
+                        "example": "Camiseta Local 2025 – Selección Chilena"
+                    },
+                    "club": {
+                        "type": "string",
+                        "example": "Selección Chilena"
+                    },
+                    "pais": {
+                        "type": "string",
+                        "example": "Chile"
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "example": "Local"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "Rojo"
+                    },
+                    "precio": {
+                        "type": "integer",
+                        "example": 45000
+                    },
+                    "precio_oferta": {
+                        "type": "integer",
+                        "example": 38000,
+                        "nullable": true
+                    },
+                    "detalles": {
+                        "type": "string",
+                        "example": "Edición aniversario 2025",
+                        "nullable": true
+                    },
+                    "codigo_producto": {
+                        "type": "string",
+                        "example": "SCL2025L"
+                    },
+                    "cliente_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "tallas": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "Camiseta": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "titulo": {
+                        "type": "string",
+                        "example": "Camiseta Local 2025 – Selección Chilena"
+                    },
+                    "club": {
+                        "type": "string",
+                        "example": "Selección Chilena"
+                    },
+                    "pais": {
+                        "type": "string",
+                        "example": "Chile"
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "example": "Local"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "Rojo"
+                    },
+                    "precio": {
+                        "type": "integer",
+                        "example": 45000
+                    },
+                    "precio_oferta": {
+                        "type": "integer",
+                        "example": 38000,
+                        "nullable": true
+                    },
+                    "detalles": {
+                        "type": "string",
+                        "example": "Edición aniversario 2025",
+                        "nullable": true
+                    },
+                    "codigo_producto": {
+                        "type": "string",
+                        "example": "SCL2025L"
+                    },
+                    "cliente_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "precio_final": {
+                        "type": "integer",
+                        "example": 38000
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ClienteInput": {
+                "required": [
+                    "nombre_comercial",
+                    "rut",
+                    "direccion",
+                    "tipo",
+                    "contacto_nombre",
+                    "contacto_email"
+                ],
+                "properties": {
+                    "nombre_comercial": {
+                        "type": "string",
+                        "example": "90minutos"
+                    },
+                    "rut": {
+                        "type": "string",
+                        "example": "76.111.222-3"
+                    },
+                    "direccion": {
+                        "type": "string",
+                        "example": "Providencia, Santiago"
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "example": "Preferencial",
+                        "enum": [
+                            "Regular",
+                            "Preferencial"
+                        ]
+                    },
+                    "contacto_nombre": {
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "contacto_email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "juan@90minutos.cl"
+                    },
+                    "porcentaje_oferta": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 15
+                    }
+                },
+                "type": "object"
+            },
+            "Cliente": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre_comercial": {
+                        "type": "string",
+                        "example": "90minutos"
+                    },
+                    "rut": {
+                        "type": "string",
+                        "example": "76.111.222-3"
+                    },
+                    "direccion": {
+                        "type": "string",
+                        "example": "Providencia, Santiago"
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "example": "Preferencial",
+                        "enum": [
+                            "Regular",
+                            "Preferencial"
+                        ]
+                    },
+                    "contacto_nombre": {
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "contacto_email": {
+                        "type": "string",
+                        "example": "juan@90minutos.cl"
+                    },
+                    "porcentaje_oferta": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 15
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "TallaInput": {
+                "required": [
+                    "nombre"
+                ],
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "XXL"
+                    }
+                },
+                "type": "object"
+            },
+            "Talla": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "M"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Health",
+            "description": "Estado del sistema"
+        },
+        {
+            "name": "Camisetas",
+            "description": "Gestión de camisetas de fútbol"
+        },
+        {
+            "name": "Clientes",
+            "description": "Gestión de clientes B2B"
+        },
+        {
+            "name": "Tallas",
+            "description": "Gestión de tallas"
+        }
+    ]
+}
