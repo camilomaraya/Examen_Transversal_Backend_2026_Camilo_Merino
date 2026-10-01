@@ -14,7 +14,7 @@ API REST para gestión de inventario de camisetas de fútbol y clientes B2B. Des
 ```bash
 # Clonar repositorio
 git clone https://github.com/camilomaraya/Examen_Transversal_Backend_2026_Camilo_Merino
-cd todocamisetas_eva_transversal/backend
+cd Examen_Transversal_Backend_2026_Camilo_Merino
 
 # Copiar variables de entorno
 cp .env.example .env
